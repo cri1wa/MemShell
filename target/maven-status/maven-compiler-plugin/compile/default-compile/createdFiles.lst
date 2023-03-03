@@ -1,3 +1,5 @@
+Shell\TomcatAgentFilter$DefineTransformer.class
+Util\LoadAgent.class
+Util\Config.class
 Shell\AntSwordFilterShell.class
-Shell\WeblogicBehinderFilter.class
-Inject\WeblogicInjectFilterShell.class
+Shell\TomcatAgentFilter.class
