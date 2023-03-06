@@ -5,7 +5,7 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.UnixStyleUsageFormatter;
 
 public class Config {
-    @Parameter(names = {"-l", "--list"}, help = true, description = "list VirtualMachine",order = 1)
+    @Parameter(names = {"-l", "--list"}, help = true, description = "output jvm process",order = 1)
     public static boolean list_vm = false;
 
     @Parameter(names = {"-t", "--target"}, help = true, description = "target process name",order = 2)
@@ -14,7 +14,7 @@ public class Config {
     @Parameter(names = {"-h", "--help"}, help = true, description = "Show this help",order = 3)
     private static boolean help = false;
 
-    public static String jarName = "MemShell-1.0-SNAPSHOT.jar";
+    public static String jarName = "D:\\blog\\github\\MemShell\\target\\MemShell-1.0-SNAPSHOT-jar-with-dependencies.jar";
     public static void applyCmdArgs(String[] args) {
         //process cmd args
         JCommander jc = JCommander.newBuilder()

