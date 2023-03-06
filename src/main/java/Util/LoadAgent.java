@@ -8,8 +8,11 @@ import com.sun.tools.attach.VirtualMachineDescriptor;
 
 
 public class LoadAgent {
-    String targetName;
-    String path;
+    public String targetName;
+    public String path;
+
+
+
     public LoadAgent(String targetName,String agentPath) {
         this.targetName = targetName;
         this.path = agentPath;
@@ -17,14 +20,14 @@ public class LoadAgent {
 
     public void loadAgent2JVM(){
         try{
-            Class/*<?>*/ MyVirtualMachine = VirtualMachine.class.getClass();
-            Class/*<?>*/ MyVirtualMachineDescriptor = VirtualMachineDescriptor.class.getClass();
+            Class MyVirtualMachine = Class.forName("com.sun.tools.attach.VirtualMachine");
+            Class MyVirtualMachineDescriptor = Class.forName("com.sun.tools.attach.VirtualMachineDescriptor");
             List<VirtualMachineDescriptor> list = VirtualMachine.list();
             System.out.println("Running JVM list ...");
             for (int i = 0; i < list.size(); i++) {
                 Object o = list.get(i);
 
-                java.lang.reflect.Method displayName = MyVirtualMachineDescriptor.getDeclaredMethod("displayName", null);
+                java.lang.reflect.Method displayName = MyVirtualMachineDescriptor.getMethod("displayName", null);
                 java.lang.String name = (java.lang.String) displayName.invoke(o, null);
                 // 列出当前有哪些 JVM 进程在运行
                 // 这里的 if 条件根据实际情况进行更改
@@ -39,7 +42,7 @@ public class LoadAgent {
                     loadAgent.invoke(vm, new String[]{path});
                     java.lang.reflect.Method detach = MyVirtualMachine.getDeclaredMethod("detach", null);
                     detach.invoke(vm, null);
-                    System.out.println("Agent.jar Start Success!");
+                    System.out.println("Hack Success!");
                     break;
                 }
             }
