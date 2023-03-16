@@ -1,12 +1,15 @@
+Shell\TomcatFilterShell.class
+Inject\Jetty.class
+Shell\WeblogicFilterShell.class
 Util\LoadAgent.class
 Util\Config.class
 Shell\AntSwordFilterShell.class
-Shell\DynamicFilterShell.class
 Shell\TomcatAgentFilter.class
 Shell\TomcatAgentFilter$DefineTransformer.class
+Util\GetRequest.class
 Main.class
-Shell\TomcatEchoShell.class
 Util\classCache.class
 Inject\TomcatInjectFilterShell.class
+Util\Tomcat6789.class
 Inject\WeblogicInjectFilterShell.class
 Util\MyClassLoader.class
