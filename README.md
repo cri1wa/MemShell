@@ -52,7 +52,7 @@ GET /console/css/%25%32%65%25%32%65%25%32%66consolejndi.portal?test_handle=com.t
 
 本地搭建Jetty项目，使用Velocity模板注入注入Jetty内存马
 
-![image-20230317120708186](C:\Users\nsfocus\AppData\Roaming\Typora\typora-user-images\image-20230317120708186.png)
+![image-20230317120708186](images/image-20230317120708186.png)
 
-![image-20230317152109671](C:\Users\nsfocus\AppData\Roaming\Typora\typora-user-images\image-20230317152109671.png)
+![image-20230317152109671](images/image-20230317152109671.png)
 
