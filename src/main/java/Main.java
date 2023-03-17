@@ -18,6 +18,7 @@ public class Main {
         }else if(!Config.targetID.equals("null")){
             loadAgent();
         }
+        System.out.println(Config.jarName);
     }
 
     public static void loadAgent(){

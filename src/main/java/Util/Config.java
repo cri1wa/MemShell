@@ -4,6 +4,8 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.UnixStyleUsageFormatter;
 
+import java.io.File;
+
 public class Config {
     @Parameter(names = {"-l", "--list"}, help = true, description = "output jvm process",order = 1)
     public static boolean list_vm = false;
@@ -15,7 +17,7 @@ public class Config {
     private static boolean help = false;
 
     //public static String jarName = System.getProperty("java.class.path");
-    public static String jarName = "D:\\blog\\github\\MemShell\\target\\MemShell-1.0-SNAPSHOT-jar-with-dependencies.jar";
+    public static String jarName = System.getProperty("user.dir")+ File.separator+"MemShell-1.0-SNAPSHOT-jar-with-dependencies.jar";
     public static void applyCmdArgs(String[] args) {
         //process cmd args
         JCommander jc = JCommander.newBuilder()

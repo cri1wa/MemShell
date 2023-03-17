@@ -1,5 +1,4 @@
 Shell\TomcatFilterShell.class
-Inject\Jetty.class
 Shell\WeblogicFilterShell.class
 Util\LoadAgent.class
 Util\Config.class
