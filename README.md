@@ -32,7 +32,7 @@ u.close();
 
 目前支持的注入模块：
 
-![image-20230317112252866](C:\Users\nsfocus\AppData\Roaming\Typora\typora-user-images\image-20230317112252866.png)
+![image-20230317112252866](images/image-20230317112252866.png)
 
 ### CVE-2020-14882&CVE-2020-14883
 
